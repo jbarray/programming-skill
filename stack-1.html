@@ -1,0 +1,167 @@
+<!--实现思路:-->
+<!--建立三个栈,一个arrB,其中的排列顺序是按照用户的输入先后来决定的;-->
+<!--一个arr,数据等同于arrB,但栈口是最小值;在入栈和出栈,这两个栈需要进行位置调整时,最后一个arrA用来暂时存储数据-->
+<!DOCTYPE html>
+<!--suppress ALL -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>stack-1</title>
+</head>
+<body>
+    <label>
+        <input id="da">
+    </label>
+    <button id="enter">入栈</button>
+    <button id="exit">出栈</button>
+    <button id="min">查找最小值</button>
+    <div id="show"></div>
+<script type="text/javascript">
+const enterButton=document.getElementById('enter');
+const exitButton=document.getElementById('exit');
+const minButton=document.getElementById('min');
+const showContent=document.getElementById('show');
+const length = 0;
+const  gotop="null";
+//栈顶指针
+//创建栈
+//链式栈
+//function Stack() {
+//   this.top = null;
+//   this.size = 0;
+// }
+// module.exports = Stack;
+// Stack.prototype = {
+//    constructor: Stack,
+//       push: function (data) {
+//         var node = {
+//              data: data,
+//               next: null
+//         };
+//         node.next = this.top;
+//         this.top = node;
+//         return this.top === null ? null : this.top.data
+//       },
+//      pop: function () {
+//             if (this.top === null) return null;
+//
+//            var out = this.top;
+//             this.top = this.top.next;
+//
+//           if (this.size > 0) this.size--;
+//
+//            return out.data;
+//           },
+//      clear: function () {
+//           this.top = null;
+//           this.size = 0;
+//          },
+//     displayAll: function () {
+//           if (this.top === null) return null;
+//             var arr = [];
+//             var current = this.top;
+//             for (var i = 0, len = this.size; i < len; i++) {
+//                  arr[i] = current.data;
+//                   current = current.next;
+//                 }
+//
+//             return arr;
+//          }
+// };
+//
+// var stack = new Stack();
+//
+//}
+//顺式栈
+const arr=[];
+const arrA=[];
+const arrB=[];
+const p=arr.length-1;
+var min=arr[p];
+//入栈
+function pushStack(){
+    const data=document.getElementById("da").value;
+//    用于显示给用户
+    arrB.push(data);
+    if(data>min) {
+        arrA.push(min);
+        arr.pop(min);
+        arr.push(data);
+        arr.push(min);
+        arrA.pop(min);
+    }
+    else {
+        arr.push(data);
+        min=data;
+    }
+    showContent.innerHTML="栈为:"+arrB;
+}
+//出栈
+function popStack() {
+    const data=document.getElementById("da").value;
+    const p=arr.length-1;
+    const P=arrB.length-1;
+//    更改最小值栈
+    if(data===arr[p]){
+        arr.pop(data);
+    }
+    else{
+        for(var i=0;i<p;i++) {
+            if(data===arr[i]){
+//                data到出栈口的所有数据 进行保存
+                for(var j=i+1;j<=p;j++){
+                    arrA.push(arr[j]);
+                    arr.pop(arr[j]);
+                }
+                arr.pop(data);
+                for(var k=0;k<=p-i;k++){
+                    arr.push(arrA[k]);
+                    arrA.pop(arrA[k]);
+                }
+            }
+        }
+    }
+    //    更改显示栈
+    if(data===arrB[P]){
+        arrB.pop(data);
+    }
+    else{
+        for(var i=0;i<=P;i++) {
+            if(data===arrB[i]){
+//                data到出栈口的所有数据 进行保存
+                for(var j=i+1;j<=P;j++){
+                    arrA.push(arrB[j]);
+                }
+                for(var j=i+1;j<=P;j++){
+                    arrB.pop(arrB[j]);
+                }
+                arrB.pop(data);
+                for(var k=0;k<=P-i;k++){
+                    arrB.push(arrA[k]);
+                }
+                for(var k=0;k<=P-i;k++){
+                    arrA.pop(arrA[k]);
+                }
+            }
+        }
+    }
+    showContent.innerHTML="栈为:"+arrB;
+//    console.log("arr更新成:"+arr);
+}
+//最小值
+function minSea() {
+    const p=arr.length-1;
+    alert("最小值为:"+arr[p]);
+}
+enterButton.onclick=function () {
+    pushStack();
+}
+exitButton.onclick=function () {
+    popStack();
+}
+minButton.onclick=function () {
+    minSea();
+}
+</script>
+</body>
+</html>
