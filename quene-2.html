@@ -1,0 +1,92 @@
+<!--题目:实现猫狗队列:-->
+<!--猫狗在同一个队列中,调用add加入队列中;pollAll弹出所有;pollCat,pollDog弹出cat,dog类.-->
+<!--解题思路:建立三个队列,一个总的,两个单独种类的-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>quene-2</title>
+</head>
+<body>
+<script type="text/javascript">
+    let arr=[];
+    let arrD=[];
+    let arrC=[];
+//    添加内容
+    var quene= {
+        addD: function()
+        {
+            let p = "d1";
+            arr.push(p);
+            let d=p.indexOf("d");
+            if (d!=="-1") {
+                arrD.push(p);
+            }
+            else {
+                arrC.push(p);
+            }
+            console.log("arr为:" + arr);
+            console.log("arrD为:" + arrD);
+            console.log("arrC为:" + arrC);
+        },
+
+        //    弹出数据
+        popAll:function() {
+            let l = arr.length;
+            for (let i = 0; i < l; i++) {
+                arr.pop();
+            }
+            console.log("arr为:" + arr);
+        },
+
+         popD:function() {
+            let l = arrD.length;
+            for (let i = 0; i < l; i++) {
+                arrD.pop();
+            }
+            console.log("arrD为:" + arr);
+        },
+
+        popC:function () {
+            let l = arrC.length;
+            for (let i = 0; i < l; i++) {
+                arrC.pop();
+            }
+            console.log("arrC为:" + arr);
+        },
+        //    确认是否为空
+        isEmpty:function () {
+            let l = arr.length;
+            if (l === 0) {
+                console.log("arr为空");
+            }
+            else {
+                console.log("arr为:" + arr);
+            }
+        },
+
+         isDogEmpty:function() {
+            let l = arrD.length;
+            if (l === 0) {
+                console.log("arrD为空");
+            }
+            else {
+                console.log("arrD为:" + arrD);
+            }
+        },
+
+         isCatEmpty:function() {
+            let l = arrC.length;
+            if (l === 0) {
+                console.log("arrC为空");
+            }
+            else {
+                console.log("arrC为:" + arrC);
+            }
+        }
+    };
+//调用
+    quene.addD();
+</script>
+</body>
+</html>
