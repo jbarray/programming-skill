@@ -1,0 +1,46 @@
+<!--题目:用一个栈help实现另一个栈的排序-->
+<!--只能出现两个栈,变量不设限-->
+<!--解题思路:将stack的栈顶元素push进help,之后每一个push进help的元素都和help的栈顶元素进行比较,保证help栈顶为最小值,并且内部按照从小到大的顺序排列-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>stack-3</title>
+</head>
+<body>
+<script>
+    const stack = [ "7", "0", "1", "8"];
+    let help=[];
+    let p;
+    function inOrder() {
+//        先push一个元素进help,方便后面对比
+        help.push(stack[stack.length-1]);
+        stack.pop(stack[stack.length-1]);
+        while(stack.length!==0) {
+//            如果help的栈顶元素大于等于stack的
+            if(help[help.length-1]>=stack[stack.length-1]){
+                help.push(stack[stack.length-1]);
+                stack.pop(stack[stack.length-1]);
+            }
+//            如果help的栈顶元素小于stack的
+            else{
+                p=stack[stack.length-1];
+                stack.pop(stack[stack.length-1]);
+                stack.push(help[help.length-1]);
+                help.pop(help[help.length-1]);
+                stack.push(p);
+            }
+        }
+//        将排序好的helppush进stack
+        if(stack.length===0){
+            for(let j=help.length-1;j>=0;j--){
+                stack.push(help[j])
+            }
+        }
+        console.log("help:"+help);
+        console.log("stack:"+stack);
+    }
+    inOrder();
+</script>
+</body>
+</html>
