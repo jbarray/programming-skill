@@ -1,0 +1,85 @@
+<!--题目:打印两个有序链表的公共部分-->
+<!--解题思路:比较head1和head2的大小.若相同,则打印.直到有一个出现null.-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>linkedList-4</title>
+</head>
+<body>
+<script type="text/javascript">
+//  基础部分
+function Node(element){
+    this.element = element;
+    this.next = null;
+}
+
+function LList(){
+    this.head = new Node('head');
+    this.find = find;
+    this.insert = insert;
+    //this.remove = remove;
+    this.display = display;
+}
+
+function find(item){
+    var currNode = this.head;
+    while (currNode.element !== item){
+        currNode = currNode.next;
+    }
+    return currNode;
+}
+
+//插入一个元素
+function insert(newElement, item){
+    var newNode = new Node(newElement);
+    var current = this.find(item);
+    newNode.next = current.next;
+    current.next = newNode;
+}
+
+function display(){
+    var currNode = this.head;
+    while (!(currNode.next === null)){
+        console.log(currNode.next.element);
+        currNode = currNode.next;
+    }
+}
+
+//    先创建两个链表
+var listA = new LList();
+listA.insert("1", "head");
+listA.insert("2", "1");
+listA.insert("3", "2");
+listA.display();
+var listB = new LList();
+listB.insert("1", "head");
+listB.insert("3", "1");
+listB.insert("5", "3");
+listB.display();
+
+com(listA,listB);
+//比较头结点数值的大小
+    function com(a,b){
+        var listC=new LList();
+        var coma=a.head.next;
+        var comb=b.head.next;
+        while(coma.next!==null&&comb.next!==null)
+        {
+            if (coma.element = comb.element) {
+                listC.insert(coma, "head");
+                coma = coma.next;
+                comb = comb.next;
+            }
+            else if (coma.element > comb.element) {
+                coma = coma.next;
+            }
+            else if (coma.element < comb.element) {
+                comb = comb.next;
+            }
+        }
+        listC.display();
+    }
+</script>
+</body>
+</html>
