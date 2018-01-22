@@ -1,0 +1,117 @@
+<!--题目:删除单链表和双链表的中间节点和位于a/b的节点-->
+<!--解题思路:计算链表的长度,/2;(a*length)/b-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>linkedList-6</title>
+</head>
+<body>
+<script type="text/javascript">
+    //  单链表基础部分
+    function Node(element){
+        this.element = element;
+        this.next = null;
+    }
+
+    function LList(){
+        this.head = new Node('head');
+        this.find = find;
+        this.insert = insert;
+        //this.remove = remove;
+        this.display = display;
+    }
+
+    //插入一个元素
+    function insert(newElement, item){
+        var newNode = new Node(newElement);
+        var current = this.find(item);
+        newNode.next = current.next;
+        current.next = newNode;
+    }
+    function find(item){
+        var currNode = this.head;
+        while (currNode.element !== item){
+            currNode = currNode.next;
+        }
+        return currNode;
+    }
+
+    function display(){
+        var currNode = this.head;
+        while (!(currNode.next === null)){
+            console.log(currNode.next.element);
+            currNode = currNode.next;
+        }
+    }
+
+    //    先创建两个链表
+    var listA = new LList();
+    listA.insert("1", "head");
+    listA.insert("2", "1");
+    listA.insert("4", "2");
+    listA.insert("3", "4");
+    listA.display();
+
+    //计算A中的中间值,删除
+    function deleteNode() {
+        let node=listA.head;
+        var j=0;
+        //计算listA的长度
+        while(node.next!==null){
+            node=node.next;
+            j++
+        }
+        if(listA.length<1){
+            console.log("无中间值");
+        }
+        else{
+            //有偶数个节点
+            let p
+            if(j%2===0){
+                p=j/2;
+            }
+            else{
+               p=(j+1)/2;
+            }
+            let preNode=listA.head;
+            for(var i=1;i<p;i++){
+                preNode=preNode.next;
+            }
+            node=preNode.next;
+//                赋值
+            preNode.next=node.next;
+            listA.display();
+        }
+    }
+    //计算A中的第2/4的值 并且删除
+    function deleteAB(a,b) {
+        let node=listA.head;
+        var j=0;
+        //计算listA的长度
+        while(node.next!==null){
+            node=node.next;
+            j++
+        }
+        if(listA.length<1){
+            console.log("链表长度不足");
+        }
+        else{
+            //有偶数个节点
+            let p=Math.ceil(j*a/b);
+            let preP=p-1;
+            let preNode=listA.head;
+            for(var i=1;i<preP;i++){
+                preNode=preNode.next;
+            }
+            node=preNode.next;
+//                赋值
+            preNode.next=node.next;
+            listA.display();
+        }
+    }
+    deleteNode();
+    deleteAB(2,4)
+</script>
+</body>
+</html>
