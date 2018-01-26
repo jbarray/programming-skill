@@ -1,0 +1,159 @@
+<!--题目:反转单链表的一部分-->
+<!--解题思路:1.判断from和to的值是否在链表范围内2.找到from的前一个fPre和to的后一个tPos 3.将不用反转的链表部分正常排列.需要反转的部分进行反转
+4.if fpre==null,则头结点也被反转,需要更换;添加已反转的内容至链表-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>linkedList-5</title>
+</head>
+<body>
+<script type="text/javascript">
+    //  单链表基础部分
+    function Node(element){
+        this.element = element;
+        this.next = null;
+    }
+
+    function LList(){
+        this.head = new Node('head');
+        this.find = find;
+        this.insert = insert;
+        //this.remove = remove;
+        this.display = display;
+    }
+
+    function find(item){
+        var currNode = this.head;
+        while (currNode.element !== item){
+            currNode = currNode.next;
+        }
+        return currNode;
+    }
+
+    //插入一个元素
+    function insert(newElement, item){
+        var newNode = new Node(newElement);
+        var current = this.find(item);
+        newNode.next = current.next;
+        current.next = newNode;
+    }
+
+
+    function display(){
+        var currNode = this.head;
+        while (!(currNode.next === null)){
+            console.log(currNode.next.element);
+            currNode = currNode.next;
+        }
+    }
+    //  双链表基础部分
+    function DNode(element){
+        this.element = element;
+        this.pre=null;
+        this.next = null;
+    }
+
+    function DList(){
+        this.head = new DNode('head');
+        this.find = Dfind;
+        this.insert = Dinsert;
+        //this.remove = remove;
+        this.display = display;
+    }
+
+    function Dfind(item){
+        var currNode = this.head;
+        while (currNode.element !== item){
+            currNode = currNode.next;
+        }
+        return currNode;
+    }
+
+    //插入一个元素
+    function Dinsert(newElement, item){
+        var newNode = new Node(newElement);
+        var current = this.find(item);
+        newNode.pre = current;
+        newNode.next = current.next;
+        current.next = newNode;
+    }
+
+    function display(){
+        var currNode = this.head;
+        while (!(currNode.next === null)){
+            console.log(currNode.next.element);
+            currNode = currNode.next;
+        }
+    }
+
+    //    先创建两个链表
+    var listA = new LList();
+    listA.insert("1", "head");
+    listA.insert("2", "1");
+    listA.insert("4", "2");
+    listA.insert("3", "4");
+    listA.insert("5", "3");
+    listA.display();
+
+    //单链表
+    function change(a,b) {
+        var p2=listA.head;
+        var p=p2.next;
+        var i=0;
+        var j=0;
+        var lista=new LList();
+        var p1=lista.head;
+        var p3=p1.next;
+        //计算listA的长度
+        while(p.next!==null){
+            p=p.next;
+            i++
+        }
+        p=p2.next;
+//        p1=p;
+//        p1.next=lista.head.next;
+//        lista.head.next=p1;
+//        lista.display();
+//        console.log(p2);
+        if(1<=a<=b<=i){
+//            找到fPre
+            var P=p;
+            lista.insert(P.element,"head");
+            for(var j=1;j<a-1;j++){
+                lista.insert(P.next.element,P.element);
+                P=P.next;
+                p2=p2.next;
+            }
+            console.log("第一次lista的内容为:")
+            lista.display();
+//            找到fPos
+             p2=listA.head;
+             p=p2.next;
+            var p5;
+            for(var k=1;k<b+1;k++){
+                p=p.next;
+                p5=p;
+            }
+            lista.insert(p5.element,P.element);
+            console.log("lista的第二次内容为:")
+            lista.display();
+            var p6=P;
+//          将需要反转的内容插入
+            for(var x=a;x<=b;x++){
+                lista.insert(p6.next.element,P.element);
+                p6=p6.next;
+
+            }
+            console.log("lista的最终内容为:")
+           lista.display();
+        }
+        else{
+            console.log("输入内容有误");
+        }
+    }
+    change(1,4);
+//    changeAll();
+</script>
+</body>
+</html>

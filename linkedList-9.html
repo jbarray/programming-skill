@@ -1,0 +1,105 @@
+<!--题目:环形链表,删除第m个节点,head向后移动一位-->
+<!--解题思路:建立环形链表1.计算节点个数 2.=0,=1,m<0,则返回.否则,当节点大于0且不等于1,找到head和第m个值,进行删除,更换-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>linkedList-5</title>
+</head>
+<body>
+<script type="text/javascript">
+    //  单链表基础部分
+    function Node(element){
+        this.element = element;
+        this.next = null;
+    }
+
+    function LList(){
+        this.head = new Node('head');
+        this.find = find;
+        this.insert = insert;
+        //this.remove = remove;
+        this.display = display;
+    }
+
+    function find(item){
+        var currNode = this.head;
+        while (currNode.element !== item){
+            currNode = currNode.next;
+        }
+        return currNode;
+    }
+
+    //插入一个元素
+    function insert(newElement, item){
+        var newNode = new Node(newElement);
+        var current = this.find(item);
+        newNode.next = current.next;
+        current.next = newNode;
+    }
+
+
+    function display(){
+        var currNode = this.head;
+//        while (!(currNode.next === null)){
+//            console.log(currNode.next.element);
+//            currNode = currNode.next;
+//        }
+        var p=currNode.next;
+        var p1=currNode.next;
+        var i=0;
+        var j=0;
+        //计算listA的长度
+        while(p.next!==this.head){
+            p=p.next;
+            i++
+        }
+        for(;j<i+1;j++){
+            console.log(p1)
+            p1=p1.next
+        }
+    }
+
+    //    先创建环形链表
+    var listA = new LList();
+    listA.insert("1", "head");
+    listA.insert("2", "1");
+    listA.insert("4", "2");
+    listA.insert("3", "4");
+    listA.insert("5", "3");
+    var p=listA.head;
+    while(p.element!=='5'){
+        p=p.next;
+    }
+    p.next=listA.head
+   listA.display();
+    //单链表
+   function change(m) {
+       //计算个数
+       var currNode = listA.head;
+       var p=currNode.next;
+       var p1=currNode.next;
+       var i=0;
+       var j=1;
+       //计算listA的长度
+       while(p.next!==listA.head){
+           p=p.next;
+           i++
+       }
+       if(i<=1||m<1){
+           return
+       }
+       while(i>=m-1){
+           for(;j<m-1;j++){
+               p1=p1.next
+           }
+           var p2=p1.next
+           p1.next=p2.next
+           i--
+       }
+       listA.display()
+   }
+    change(3);
+</script>
+</body>
+</html>
