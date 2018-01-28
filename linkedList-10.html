@@ -1,0 +1,126 @@
+<!--题目:检测链表是否为回形-->
+<!--解题思路:两种方式:1.全部入栈,再出栈.会把链表完全反过来,判断出栈后的链表和原链表是否相同即可.
+2.仅入栈链表的后半部分,从栈顶到栈底元素,与原链表前半部分进行比较 PS:下方代码为方法二的实现过程.-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>linkedList-5</title>
+</head>
+<body>
+<script type="text/javascript">
+    //  单链表基础部分
+    function Node(element){
+        this.element = element;
+        this.next = null;
+    }
+
+    function LList(){
+        this.head = new Node('head');
+        this.find = find;
+        this.insert = insert;
+        //this.remove = remove;
+        this.display = display;
+    }
+
+    //插入一个元素
+    function insert(newElement, item){
+        var newNode = new Node(newElement);
+        var current = this.find(item);
+        newNode.next = current.next;
+        current.next = newNode;
+    }
+    function find(item){
+        var currNode = this.head;
+        while (currNode.element !== item){
+            currNode = currNode.next;
+        }
+        return currNode;
+    }
+
+    function display(){
+        var currNode = this.head;
+        while (!(currNode.next === null)){
+            console.log(currNode.next.element);
+            currNode = currNode.next;
+        }
+    }
+
+    //    先创建两个链表
+    var listA = new LList();
+    listA.insert("1", "head");
+    listA.insert("2", "1");
+    listA.insert("1", "2");
+    listA.insert("2", "1");
+    listA.insert("5", "2");
+    listA.display();
+
+    //单链表
+    function change() {
+        //计算个数
+        var currNode = listA.head;
+        var p=currNode.next;
+        var stack=[];
+        var p1;
+        var i=0;
+        var j=0;
+        var k=1;
+        //计算listA的长度
+        while(p){
+            p=p.next;
+            i++
+        }
+        console.log("i:"+i)
+        //找到右半部分,进行入栈操作
+        if(i%2===0){
+            //如果为偶数个 需要从第length/2 +1 开始入栈
+            j=i/2+1;
+            p=currNode.next;
+            while(k<j){
+                p=p.next;
+                k++;
+            }
+            console.log("k:"+k);
+            console.log(p.element);
+            //将第j个节点入栈
+            while(k<=i){
+                stack.push(p);
+                p=p.next;
+                k++
+            }
+            console.log(stack[1].element);
+        }else{
+            //如果为奇数个 需要从第(length+1)/2 +1 开始入栈
+            j=(i+1)/2 +1;
+            p=currNode.next;
+            while(k<j){
+                p=p.next;
+                k++;
+            }
+            //将第j个节点入栈
+            while(k<=i){
+                stack.push(p);
+                p=p.next;
+                k++
+            }
+            console.log(stack);
+        }
+        //从栈顶开始 比较栈的元素和链表的前半部分
+        var p1=currNode.next;
+        for(var f=stack.length-1;f>=0;f--){
+            var p2=stack[f];
+            if(p1.element===p2.element) {
+                p1=p1.next;
+                p2=p2.next;
+            }
+            else{
+                console.log("非回还");
+                return
+            }
+        }
+        console.log("确认为回还");
+    }
+    change();
+</script>
+</body>
+</html>
