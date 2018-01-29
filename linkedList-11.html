@@ -1,0 +1,115 @@
+<!--题目:链表相加成一个链表1>2>3和3>5 加和成1>5>8-->
+<!--解题思路:1.入栈,找到栈顶元素 2.进行相加,并且记录是否需要进一位.3.最终形成一个链表-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>linkedList-5</title>
+</head>
+<body>
+<script type="text/javascript">
+    //  单链表基础部分
+    function Node(element){
+        this.element = element;
+        this.next = null;
+    }
+
+    function LList(){
+        this.head = new Node('head');
+        this.find = find;
+        this.insert = insert;
+        //this.remove = remove;
+        this.display = display;
+    }
+
+    //插入一个元素
+    function insert(newElement, item){
+        var newNode = new Node(newElement);
+        var current = this.find(item);
+        newNode.next = current.next;
+        current.next = newNode;
+    }
+    function find(item){
+        var currNode = this.head;
+        while (currNode.element !== item){
+            currNode = currNode.next;
+        }
+        return currNode;
+        console.log("currNode"+currNode.element)
+    }
+
+    function display(){
+        var currNode = this.head;
+        while (!(currNode.next === null)){
+            console.log(currNode.next.element);
+            currNode = currNode.next;
+        }
+    }
+
+    //    先创建链表
+    var listA = new LList();
+    var listB = new LList();
+    listA.insert("1", "head");
+    listA.insert("3", "1");
+    listA.insert("6", "3");
+    listA.display();
+
+    listB.insert("1", "head");
+    listB.insert("8", "1");
+    listB.insert("8", "8");
+    listB.display();
+    //单链表
+    function change() {
+        //入栈
+        var currNode1 = listA.head;
+        var currNode2 = listB.head;
+        var stackA = [];
+        var stackB = [];
+        while (currNode1.next !== null) {
+            currNode1 = currNode1.next;
+            stackA.push(currNode1)
+        }
+        while (currNode2.next !== null) {
+            currNode2 = currNode2.next;
+            stackB.push(currNode2)
+        }
+        //从栈顶开始比较元素
+        var n1 = 0;
+        var n2 = 0;
+        var ca=0;
+        var n;
+        var m;
+        var stackC=[];
+        for(var i=0;i<3;i++){
+            var p1 = stackA[stackA.length-1];
+            var p2 = stackB[stackB.length-1];
+            n1=p1;
+            n2=p2;
+            stackA.pop(n1);
+            stackB.pop(n2);
+            n=parseInt(n1.element)+parseInt(n2.element)+ca;
+            if(n>=10) {
+                m=n-10
+                ca=1;
+            }
+            else{
+                m=n
+            }
+            stackC.push(m);
+        }
+        //将栈转换成链表listC
+        var listC=new LList();
+        listC.insert(stackC[stackC.length-1],"head")
+ //       display(listC)
+        for(var j=stackC.length-1;j>0;j--) {
+            var p=stackC[j-1]
+            var q=stackC[j]
+            listC.insert(p,q)
+        }
+        console.log("加和为:");
+        listC.display()
+    }
+    change();
+</script>
+</body>
+</html>
