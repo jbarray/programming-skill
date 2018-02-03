@@ -1,0 +1,43 @@
+<!--题目:找出链表中的重复项并且删除-->
+<!--解题思路:在js中构造伪哈希表.使用对象 1.创建对象 2.添加数值
+3.另外创建一个数组,用于存储arr的下标;创建一个对象temp,用于存储未重复的内容,每遍历一次arr对象,需要确认temp中是否存在 若存在 则提示-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>linkedList-12</title>
+</head>
+<body>
+<script type="text/javascript">
+    //创建对象
+    function build() {
+        var arr={};
+        for(var i=0;i<10;i++) {
+            var j=i*i;
+            arr[i]=j;
+        }
+        arr[i]=81;
+        search(arr,i)
+    }
+    //进行测试 是否有重
+    function search(arr,i) {
+        var temp={};
+        var result=[arr[0]];
+        temp[arr[0]]=true;
+        var arrLen=arr.length;
+        for(var k=1;i>=k;k++) {
+            //temp中无此数值
+            if(!temp[arr[k]]){
+                result.push(arr[k]);
+                temp[arr[k]]=true;
+            }
+            else{
+                alert("第"+k+"已经重复"+arr[k]+",删除!")
+            }
+        }
+        console.log(temp);
+    }
+    build()
+</script>
+</body>
+</html>

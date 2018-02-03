@@ -136,9 +136,11 @@
            console.log("k太大");
         }
     }
+    //删除双链表的倒数第k个节点
     function Dsearch() {
         var q=listB.head;
         var q1;
+        var k=2;
         var j=0;
         //计算listB的长度
         while(q.next!==null){
@@ -147,7 +149,6 @@
         }
         //找到倒数第2个节点,并且删除
         q=listB.head;
-        var k=2;
         if(j>k){
             for(var m=0;m<=j-k;m++){
                 q1=q;
