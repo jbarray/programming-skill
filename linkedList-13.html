@@ -1,0 +1,40 @@
+<!--题目:删除链表中的某个节点值-->
+<!--解题思路:在js中构造伪哈希表.使用对象 1.创建对象并添加数值
+3.创建一个对象temp,用于存储不删的节点值 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>linkedList-12</title>
+</head>
+<body>
+<script type="text/javascript">
+    //创建对象
+    function build(Data) {
+        var arr={};
+        for(var i=0;i<10;i++) {
+            var j=i*i;
+            arr[i]=j;
+        }
+        arr[i]=81;
+        search(arr,i,Data)
+    }
+    //进行删选
+    function search(arr,i,Data) {
+        var temp={};
+        temp[arr[0]]=0;
+        for(var k=1;i>=k;k++) {
+            //temp中无此数值
+            if(arr[k]!==Data){
+                temp[arr[k]]=k;
+            }
+            else{
+                alert("第"+k+arr[k]+",已删除!")
+            }
+        }
+        console.log(temp);
+    }
+    build(49)
+</script>
+</body>
+</html>
