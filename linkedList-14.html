@@ -1,0 +1,98 @@
+<!--题目:单链表进行排序,额外空间复杂度为O(1)-->
+<!--解题思路:1.先查找到整个链表的最小值 标记为newNode 放于head后面 2.剩余节点中查找最小值p.next,找到后进行删除,添加到newNode后面,记为q -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>linkedList-14</title>
+</head>
+<body>
+<script type="text/javascript">
+    //  单链表基础部分
+    function Node(element){
+        this.element = element;
+        this.next = null;
+    }
+
+    function LList(){
+        this.head = new Node('head');
+        this.find = find;
+        this.insert = insert;
+        //this.remove = remove;
+        this.display = display;
+    }
+
+    function find(item){
+        var currNode = this.head;
+        while (currNode.element !== item){
+            currNode = currNode.next;
+        }
+        return currNode;
+    }
+
+    //插入一个元素
+    function insert(newElement, item){
+        var newNode = new Node(newElement);
+        var current = this.find(item);
+        newNode.next = current.next;
+        current.next = newNode;
+    }
+
+
+    function display(){
+        var currNode = this.head;
+        while (!(currNode.next === null)){
+            console.log(currNode.next.element);
+            currNode = currNode.next;
+        }
+    }
+    //    先创建链表
+    var listA = new LList();
+    listA.insert("6", "head");
+    listA.insert("5", "6");
+    listA.insert("0", "5");
+    listA.insert("1", "0");
+    console.log("无序链表为:")
+    listA.display();
+
+    function search() {
+        //步骤1 查找全链表的最小值,并设为newNode 位于头结点后面
+        var minVal = listA.head.next;
+        var p = minVal;
+        while(p.next!==null){
+            if(p.next.element < minVal.element) {
+                 var p1=p;
+                 minVal = p.next
+            }
+            p=p.next;
+        }
+        p1.next=minVal.next;
+        minVal.next=listA.head.next;
+        listA.head.next=minVal;
+        //步骤2 循环查找剩余无序链表的最小值,并添加至有序模块的后面 有序链表头:listA.head.next 尾:q / 无序链表头:p p=q.next
+        var q = minVal;
+        while(q.next !== null) {
+            p = q.next;
+            var p2 = p;
+            minVal = p;
+            while(p.next!==null){
+                if(p.next.element < minVal.element) {
+                    p2=p;
+                    minVal = p.next
+                }
+                p=p.next;
+            }
+            if(minVal !== q.next){
+                p2.next=minVal.next;
+                minVal.next=q.next;
+                q.next=minVal;
+            }
+            q=q.next;
+        }
+        console.log("有序链表为:")
+        listA.display();
+    }
+    search()
+</script>
+</body>
+</html>
