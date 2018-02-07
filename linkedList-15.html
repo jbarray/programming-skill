@@ -1,0 +1,78 @@
+<!--题目:一种怪异的节点删除方式 element为数字类型且不清楚头节点的情况下-->
+<!--解题思路:1.先查找到要删除的节点和其.next节点  2.将.next的element赋值给要删除节点. 3.删除.next节点 -->
+<!--存在的问题:1.最后一个节点不能删除 因为执行过程其实是删除.next节点 2.有一个将.next赋值给该节点的过程,如果节点有复杂功能的话,会有影响-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>linkedList-14</title>
+</head>
+<body>
+<script type="text/javascript">
+    //  单链表基础部分
+    function Node(element){
+        this.element = element;
+        this.next = null;
+    }
+
+    function LList(){
+        this.head = new Node('head');
+        this.find = find;
+        this.insert = insert;
+        //this.remove = remove;
+        this.display = display;
+    }
+
+    function find(item){
+        var currNode = this.head;
+        while (currNode.element !== item){
+            currNode = currNode.next;
+        }
+        return currNode;
+    }
+
+    //插入一个元素
+    function insert(newElement, item){
+        var newNode = new Node(newElement);
+        var current = this.find(item);
+        newNode.next = current.next;
+        current.next = newNode;
+    }
+
+
+    function display(){
+        var currNode = this.head;
+        while (!(currNode.next === null)){
+            console.log(currNode.next.element);
+            currNode = currNode.next;
+        }
+    }
+    //    先创建链表
+    var listA = new LList();
+    listA.insert("6", "head");
+    listA.insert("5", "6");
+    listA.insert("0", "5");
+    listA.insert("1", "0");
+    console.log("原链表为:")
+    listA.display();
+
+    function del(p) {
+       var node = listA.head.next
+        while(node.next !== null){
+           if(node.element === p) {
+               var p1 = node.next
+               node.element = p1.element
+               node.next = p1.next
+           }
+           node=node.next
+        }
+//        while(node.element === p){
+//            console.log(node)
+//        }
+        console.log("删除后的链表为:")
+        listA.display();
+    }
+    del("5")
+</script>
+</body>
+</html>
