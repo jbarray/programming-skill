@@ -1,0 +1,94 @@
+<!--向有序环形链表中插入节点-->
+<!--1.链表为空,返回节点-->
+<!--2.链表不为空:-->
+    <!--2-1.找到比插入节点大的节点,插入-->
+    <!--2-2.找不到,放在最后-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>向有序环形链表中插入节点</title>
+</head>
+<body>
+<script type="text/javascript">
+    //  单链表基础部分
+    function Node(element){
+        this.element = element;
+        this.next = null;
+    }
+
+    function LList(){
+        this.head = new Node('head');
+        this.find = find;
+        this.insert = insert;
+        //this.remove = remove;
+        this.display = display;
+    }
+
+    function find(item){
+        var currNode = this.head;
+        while (currNode.element !== item){
+            currNode = currNode.next;
+        }
+        return currNode;
+    }
+
+    //插入一个元素
+    function insert(newElement, item){
+        var newNode = new Node(newElement);
+        var current = this.find(item);
+        newNode.next = current.next;
+        current.next = newNode;
+    }
+
+
+    function display(){
+        var currNode = this.head;
+        while (!(currNode.next === null)){
+            console.log(currNode.next.element);
+            currNode = currNode.next;
+        }
+    }
+    //    先创建链表
+    var listA = new LList();
+    listA.insert("0", "head");
+    listA.insert("1", "0");
+    listA.insert("5", "1");
+    listA.insert("6", "5");
+    console.log("原链表为:")
+    listA.display();
+
+    function inse(p) {
+        var node = listA.head.next;
+        var p2 = new Node(p);
+//        链表为空
+        if(listA.head.next === null){
+            return listA.head
+        }
+        while(node.next !== null){
+            var p1 = node.next;
+            //        node小于新建节点
+         if( p1.element < p){
+             node = node.next;
+         }
+         else{
+             p2.next = node.next;
+             node.next = p2;
+             console.log("添加后的链表为:")
+             listA.display();
+             return ;
+         }
+        }
+        if(p1.element < p){
+            p2.next = p1.next;
+//            p2.next = listA.head;
+            p1.next = p2;
+            console.log("添加后的链表为:")
+            listA.display();
+            return ;
+        }
+    }
+    inse("7")
+</script>
+</body>
+</html>
