@@ -1,0 +1,124 @@
+<!--合并两个有序链表-->
+<!--1.链表为空,返回另一个链表-->
+<!--2.链表不为空:-->
+<!--2-1.遍历链表,并比较两个链表的值大小 谁小 将谁插入新链表中-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>合并两个有序链表</title>
+</head>
+<body>
+<script type="text/javascript">
+    //  单链表基础部分
+    function Node(element){
+        this.element = element;
+        this.next = null;
+    }
+
+    function LList(){
+        this.head = new Node('head');
+        this.find = find;
+        this.insert = insert;
+        //this.remove = remove;
+        this.display = display;
+    }
+
+    function find(item){
+        var currNode = this.head;
+        while (currNode.element !== item){
+            currNode = currNode.next;
+        }
+        return currNode;
+    }
+
+    //插入一个元素
+    function insert(newElement, item){
+        var newNode = new Node(newElement);
+        var current = this.find(item);
+        newNode.next = current.next;
+        current.next = newNode;
+    }
+
+    function display(){
+        var currNode = this.head;
+        while (!(currNode.next === null)){
+            console.log(currNode.next.element);
+            currNode = currNode.next;
+        }
+    }
+    //    先创建链表
+    var listA = new LList();
+    listA.insert("0", "head");
+    listA.insert("1", "0");
+    listA.insert("5", "1");
+    listA.insert("6", "5");
+    console.log("原链表A为:")
+    listA.display();
+    var listB = new LList();
+    listB.insert("0", "head");
+    listB.insert("2", "0");
+    listB.insert("3", "2");
+    listB.insert("7", "3");
+    console.log("原链表B为:")
+    listB.display();
+    var listC = new LList();
+    var pre = listC.head.next;
+
+    function inse() {
+        var p1 = listA.head.next;
+        var p2 = listB.head.next;
+        //        A链表为空
+        if(listA.head.next === null){
+            listC = listB;
+            console.log("A链表为空,链表C为:");
+            listC.display();
+           return;
+        }
+        //        B链表为空
+        else if(listB.head.next === null) {
+            listC = listA;
+            console.log("B链表为空,链表C为:");
+            listC.display();
+            return;
+        }
+        //        A B链表均不为空
+        else{
+            while(p1 && p2){
+                if(p1.element < p2.element){
+                    insertNew(p1);
+                    p1 = p1.next;
+                }else{
+                    insertNew(p2);
+                    p2 = p2.next;
+                }
+            }
+            while(p1 && !p2){
+                insertNew(p1);
+                p1 = p1.next;
+            }
+            while(!p1 && p2){
+                insertNew(p2);
+                p2 = p2.next;
+            }
+        }
+        console.log("链表C为:");
+        listC.display();
+    }
+    function insertNew(P){
+        var p = P.element;
+        var newNode = new Node(p);
+        if(pre){
+            newNode.next = pre.next;
+            pre.next = newNode;
+            pre = pre.next;
+        }else{
+            listC.head.next = newNode;
+            pre = newNode;
+        }
+    }
+    inse();
+</script>
+</body>
+</html>
