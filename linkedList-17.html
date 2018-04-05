@@ -1,13 +1,14 @@
-<!--合并两个有序链表-->
-<!--1.链表为空,返回另一个链表-->
-<!--2.链表不为空:-->
-<!--2-1.遍历链表,并比较两个链表的值大小 谁小 将谁插入新链表中-->
-
+<!--按照左右半区的方式将链表进行组合.L2和R1调换-->
+<!--1.链表为空,返回链表-->
+<!--2.遍历链表,若链表个数小于4,返回-->
+<!--3.链表>=4:-->
+<!--3-1.链表长度为奇数,找到n+1/2,与L2进行交换-->
+<!--3-2.链表长度为偶数,找到n/2,与L2进行交换-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>合并两个有序链表</title>
+    <title>按照左右半区的方式将链表组合</title>
 </head>
 <body>
 <script type="text/javascript">
@@ -54,71 +55,66 @@
     listA.insert("1", "0");
     listA.insert("5", "1");
     listA.insert("6", "5");
+    listA.insert("7", "6");
     console.log("原链表A为:")
     listA.display();
-    var listB = new LList();
-    listB.insert("0", "head");
-    listB.insert("2", "0");
-    listB.insert("3", "2");
-    listB.insert("7", "3");
-    console.log("原链表B为:")
-    listB.display();
-    var listC = new LList();
-    var pre = listC.head.next;
 
-    function inse() {
+    function change() {
         var p1 = listA.head.next;
-        var p2 = listB.head.next;
+        var i = 1;
         //        A链表为空
         if(listA.head.next === null){
-            listC = listB;
-            console.log("A链表为空,链表C为:");
-            listC.display();
+            console.log("链表A不变:");
+            listA.display();
            return;
         }
-        //        B链表为空
-        else if(listB.head.next === null) {
-            listC = listA;
-            console.log("B链表为空,链表C为:");
-            listC.display();
-            return;
-        }
-        //        A B链表均不为空
         else{
-            while(p1 && p2){
-                if(p1.element < p2.element){
-                    insertNew(p1);
-                    p1 = p1.next;
-                }else{
-                    insertNew(p2);
-                    p2 = p2.next;
-                }
-            }
-            while(p1 && !p2){
-                insertNew(p1);
-                p1 = p1.next;
-            }
-            while(!p1 && p2){
-                insertNew(p2);
-                p2 = p2.next;
-            }
+           //遍历链表,计数
+           while(p1.next !== null){
+               i++;
+               p1 = p1.next;
+           }
+            //        A链表<4
+           if(i<4){
+               console.log("链表A不变:");
+               listA.display();
+               return ;
+           }else{
+            //               若为偶数
+               if(i%2 === 0){
+                   var j = 1;
+                   var R1 =listA.head.next;
+                   while(j<=i/2){
+                       R1 = R1.next;
+                       j++;
+                   }
+                   toChange(R1);
+               }
+           //               若为奇数
+               else{
+                   j = 1;
+                   R1 =listA.head.next;
+                   var k = (i-1)/2;
+                   while(j<=k){
+                       R1 = R1.next;
+                       j++;
+                   }
+                   toChange(R1);
+               }
+           }
         }
-        console.log("链表C为:");
-        listC.display();
+        console.log("链表A为:");
+        listA.display();
     }
-    function insertNew(P){
-        var p = P.element;
-        var newNode = new Node(p);
-        if(pre){
-            newNode.next = pre.next;
-            pre.next = newNode;
-            pre = pre.next;
-        }else{
-            listC.head.next = newNode;
-            pre = newNode;
-        }
+    function toChange(R1){
+        var p1 = listA.head.next;
+        var L2 = p1.next;
+        var r = R1.element;
+        var l = L2.element;
+        L2.element = r;
+        R1.element = l;
     }
-    inse();
+    change();
 </script>
 </body>
 </html>
