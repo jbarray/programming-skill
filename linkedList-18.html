@@ -10,6 +10,7 @@
 <body>
 <script type="text/javascript">
     //  基础部分
+    var arr =[];
     function Node(element){
         this.element = element;
         this.left = null;
@@ -26,33 +27,20 @@
 
     function find(item){
         var currNode = this.head;
-//        while (currNode.element !== item){
-            function b(currNode){
+        var c ;
+        function b(currNode){
+            if(currNode !== null){
                 if(currNode.element === item){
+                    c = currNode;
                     return currNode;
                 }else{
                     b(currNode.left);
                     b(currNode.right);
                 }
             }
-            var c = b();
-//            if(currNode === null){
-//                return ;
-//            }else{
-//                find(currNode.left,position);
-//                find(currNode,position);
-//                find(currNode.right,position);
-//
-//            }
-//        }
-        console.log(c);
+        }
+        b(currNode);
         return c;
-//        if(position === 'right'){
-//            currNode = currNode.right;
-//        }else{
-//            currNode = currNode.left;
-//        }
-//        return currNode;
     }
 
     //插入一个元素
@@ -64,27 +52,31 @@
         }else{
             current.left = newNode;
         }
-//        return currNode;
-//        newNode.next = current.next;
-//        current.next = newNode;
     }
 
     function display(){
-        var currNode = this.head;
-        while (!(currNode.next === null)){
-            console.log(currNode.next.element);
-            currNode = currNode.next;
+        var currNode = this.head.left;
+        b(currNode);
+        function b(currNode) {
+            if(currNode !== null){
+                arr.push(currNode.element);
+                if (currNode.left !== null) {
+                    b(currNode.left);
+                }
+                if (currNode.right !== null) {
+                    b(currNode.right);
+                }
+            }
         }
+        console.log(arr);
     }
     //    先创建链表
     var listA = new LList();
-    listA.insert("0", "head");
-//    listA.insert("1", "0");
-//    listA.insert("5", "1");
-//    listA.insert("6", "5");
-//    listA.insert("7", "6");
-//    console.log("原链表A为:")
-//    listA.display();
+    listA.insert("0", "head", "left");
+    listA.insert("1", "0", "left");
+    listA.insert("2", "0", "right");
+    console.log("原链表A为:");
+    listA.display();
 
 </script>
 </body>
