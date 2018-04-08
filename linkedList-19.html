@@ -1,0 +1,124 @@
+<!--二叉树t1是否完全包含t2的拓扑结构-->
+<!--遍历t1,找到与t2头节点一致的节点-->
+<!--先序遍历t2的每一个节点,t1进行对比,是否一致-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>二叉树t1是否完全包含t2的拓扑结构</title>
+</head>
+<body>
+<script type="text/javascript">
+    //  基础部分
+    var arr =[];
+    function Node(element){
+        this.element = element;
+        this.left = null;
+        this.right = null;
+    }
+
+    function LList(){
+        this.head = new Node('head');
+        this.find = find;
+        this.insert = insert;
+        //this.remove = remove;
+        this.display = display;
+    }
+
+    function find(item){
+        var currNode = this.head;
+        var c ;
+        function b(currNode){
+            if(currNode !== null){
+                if(currNode.element === item){
+                    c = currNode;
+                    return currNode;
+                }else{
+                    b(currNode.left);
+                    b(currNode.right);
+                }
+            }
+        }
+        b(currNode);
+        return c;
+    }
+
+    //插入一个元素
+    function insert(newElement, item, position){
+        var newNode = new Node(newElement);
+        var current = this.find(item);
+        if(position === 'right'){
+            current.right = newNode;
+        }else{
+            current.left = newNode;
+        }
+    }
+
+    function display(){
+        var currNode = this.head.left;
+        b(currNode);
+        function b(currNode) {
+            if(currNode !== null){
+                arr.push(currNode.element);
+                if (currNode.left !== null) {
+                    b(currNode.left);
+                }
+                if (currNode.right !== null) {
+                    b(currNode.right);
+                }
+            }
+        }
+        console.log(currNode);
+    }
+    //    先创建链表
+    var listA = new LList();
+    listA.insert("0", "head", "left");
+    listA.insert("1", "0", "left");
+    listA.insert("2", "0", "right");
+    listA.insert("3", "1", "right");
+    listA.insert("2", "1", "left");
+    listA.insert("5", "2", "right");
+    console.log("原链表A为:");
+    listA.display();
+
+    var listB = new LList();
+    listB.insert("2", "head", "left");
+    listB.insert("5", "2", "right");
+//    listB.insert("3", "1", "right");
+    console.log("原链表B为:");
+    listB.display();
+
+    function match(){
+        var currNode = listA.head.left;
+        var t2 = listB.head.left;
+        //t1匹配t2
+        function b(currNode) {
+            if(currNode !== null){
+                if(currNode.element === t2.element){
+                   //遍历t2中的每一个,与t1下的匹配
+                    function c(t1,t2) {
+                        if(t2 === null){
+                            console.log("成功");
+                            return true
+                        }
+                        else if(t1 === null || t1.element !== t2.element){
+//                            alert("无法匹配");
+                            return false
+                        }
+                        c(t1.left,t2.left);
+                        c(t1.right,t2.right);
+                    }
+                    return c(currNode,t2);
+                }else{
+                    b(currNode.left);
+                    b(currNode.right);
+                }
+            }
+        }
+        var truth = b(currNode);
+        return truth;
+    }
+    var d = match();
+</script>
+</body>
+</html>
