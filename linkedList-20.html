@@ -1,11 +1,11 @@
-<!--二叉树t1是否完全包含t2的拓扑结构-->
-<!--遍历t1,找到与t2头节点一致的节点-->
-<!--先序遍历t2的每一个节点,t1进行对比,是否一致-->
+<!--判断是否为平衡二叉树-->
+<!--后序遍历二叉树,找到每一个树的高度-->
+<!--遍历二叉树 查看每一个树的左右子树的高度差是否为1-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>二叉树t1是否完全包含t2的拓扑结构</title>
+    <title>判断二叉树是否为平衡二叉树</title>
 </head>
 <body>
 <script type="text/javascript">
@@ -81,44 +81,34 @@
     console.log("原链表A为:");
     treeA.display();
 
-    var treeB = new Tree();
-    treeB.insert("2", "head", "left");
-    treeB.insert("5", "2", "right");
-    //    treeB.insert("3", "1", "right");
-    console.log("原链表B为:");
-    treeB.display();
-
-    function match(){
-        var currNode = treeA.head.left;
-        var t2 = treeB.head.left;
+    var currNode = treeA.head.left;
+    function match(currNode){
         //t1匹配t2
-        function b(currNode) {
-            if(currNode !== null){
-                if(currNode.element === t2.element){
-                    //遍历t2中的每一个,与t1下的匹配
-                    function c(t1,t2) {
-                        if(t2 === null){
-                            console.log("成功");
-                            return true
-                        }
-                        else if(t1 === null || t1.element !== t2.element){
-//                            alert("无法匹配");
-                            return false
-                        }
-                        c(t1.left,t2.left);
-                        c(t1.right,t2.right);
-                    }
-                    return c(currNode,t2);
-                }else{
-                    b(currNode.left);
-                    b(currNode.right);
-                }
-            }
+        if(currNode === null){
+            console.log("符合");
+            return true
         }
-        var truth = b(currNode);
-        return truth;
+        var leftHeight = b(currNode.left);
+        var rightHeight =b(currNode.right);
+        //如果是平衡二叉树
+        if(Math.abs(leftHeight-rightHeight)<2){
+            match(currNode.left);
+            match(currNode.right);
+        }else{
+            console.log("不符合");
+            return false
+        }
+
     }
-    var d = match();
+    function b(currNode) {
+        if(currNode === null) {
+            return 0;
+        }
+        var leftHeight = b(currNode.left);
+        var rightHeight =b(currNode.right);
+        return 1+( leftHeight > rightHeight ? leftHeight : rightHeight )
+    }
+    match(currNode);
 </script>
 </body>
 </html>
