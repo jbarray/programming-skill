@@ -1,0 +1,46 @@
+<!--根据后序数组重建二叉树-->
+<!--从后遍历数组,即子树的每一个root-->
+<!--找到左子树的最大值和右子树的最小值-->
+<!--如果左子树最大值<root<右子树最小值,则进行下一个子树,否则停止-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>根据后序数组重建二叉树</title>
+</head>
+<body>
+<script type="text/javascript">
+    function check(){
+        var arr = [1,3,2,6,5,4];
+        if(arr.length === 0){
+            console.log("空二叉树");
+            return ;
+        }
+        console.log("后序遍历数组为:"+arr);
+       for(var i=arr.length-1;i>=0;i--){
+            //找到小于root(左子树)的最大值
+           var leftArr = [];
+           var rightArr = [];
+           for(var j = 0;j<arr.length-1;j++){
+               if(arr[j] < arr[i]){
+                   leftArr.push(arr[j]);
+               }else{
+                   rightArr.push(arr[j]);
+               }
+           }
+           var leftMax = Math.max.apply(null,leftArr);
+           console.log(leftMax);
+          //找到大于root(右子树)的最小值
+           var rightMin = Math.min.apply(null,rightArr);
+           console.log(rightMin);
+           if(leftMax<rightMin){
+               console.log("搜索二叉树")
+           }else{
+               console.log("不是搜索二叉树");
+           }
+       }
+    }
+   check();
+</script>
+</body>
+</html>
