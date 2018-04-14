@@ -1,0 +1,144 @@
+<!--判断二叉树是否为完全二叉树和平衡二叉树-->
+<!--1.判断是否为完全二叉树-->
+    <!--完全二叉树:有右必有左;若子节点数不为2,则子节点的子节点必须为叶子结点-->
+<!--2.判断是否为搜索二叉树-->
+    <!--利用中序遍历,查看数组是否为从小到大排序-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>判断二叉树是否为完全二叉树和平衡二叉树</title>
+</head>
+<body>
+<script type="text/javascript">
+    var arr =[];
+    function Node(element){
+        this.element = element;
+        this.left = null;
+        this.right = null;
+    }
+
+    function Tree(){
+        this.head = new Node('head');
+        this.find = find;
+        this.insert = insert;
+        //this.remove = remove;
+        this.display = display;
+    }
+
+    function find(item){
+        var currNode = this.head;
+        var c ;
+        function b(currNode){
+            if(currNode !== null){
+                if(currNode.element === item){
+                    c = currNode;
+                    return currNode;
+                }else{
+                    b(currNode.left);
+                    b(currNode.right);
+                }
+            }
+        }
+        b(currNode);
+        return c;
+    }
+
+    //插入一个元素
+    function insert(newElement, item, position){
+        var newNode = new Node(newElement);
+        var current = this.find(item);
+        if(position === 'right'){
+            current.right = newNode;
+        }else{
+            current.left = newNode;
+        }
+    }
+
+    function display(){
+        var currNode = this.head.left;
+        b(currNode);
+        function b(currNode) {
+            if(currNode !== null){
+                arr.push(currNode.element);
+                if (currNode.left !== null) {
+                    b(currNode.left);
+                }
+                if (currNode.right !== null) {
+                    b(currNode.right);
+                }
+            }
+        }
+        console.log(currNode);
+    }
+    //    先创建链表
+    var treeA = new Tree();
+    treeA.insert("0", "head", "left");
+    treeA.insert("1", "0", "left");
+    treeA.insert("3", "0", "right");
+    treeA.insert("3", "1", "right");
+    treeA.insert("4", "1", "left");
+    treeA.insert("5", "2", "left");
+    console.log("原二叉树A为:");
+    treeA.display();
+
+    //检查是否为完全二叉树
+    function checkAll(){
+        var arr1 = [];
+        var currNode = treeA.head.left;
+        arr1.push(currNode);
+        //进行遍历,得到二叉树的总个数
+        while(arr1.length !== 0){
+            var node = arr1.shift();
+            if(node.left !== null && node.right !== null){
+                arr1.push(node.left);
+                arr1.push(node.right);
+                console.log('一传入')
+            }
+            if(node.left === null && node.right){
+                console.log("非完全二叉树");
+                return false
+            }
+            if(node.left && !node.right){
+                arr1.push(node.left);
+                if(node.left.left || node.left.right){
+                    console.log("非完全二叉树");
+                    return false
+                }
+            }
+            if(arr1.length === 0){
+                break
+            }
+            console.log(arr1);
+        }
+        console.log("完全二叉树");
+    }
+    //检查是否为搜索二叉树
+    var arr2 = [];
+    function checkSearch(){
+        var currNode = treeA.head.left;
+        function middle(currNode){
+            if(currNode === null){
+                return false
+            }
+            middle(currNode.left);
+            arr2.push(currNode.element);
+            middle(currNode.right);
+        }
+        middle(currNode);
+        console.log(arr2);
+        for(var i = 0; i < arr2.length; i++){
+            var pre = arr2[i];
+            var next = arr2[i+1];
+            if(pre>next){
+                console.log('不为搜索二叉树');
+                return false
+            }
+        }
+        console.log('搜索二叉树');
+    }
+    checkAll();
+    checkSearch();
+</script>
+</body>
+</html>
