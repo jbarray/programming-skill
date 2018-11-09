@@ -1,0 +1,50 @@
+<!--冒泡排序：两两进行比较 max放右边 循环次数为n-1-->
+<!--极端情况： 1.非数字 2.仅两个或者小于两个-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>冒泡排序</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <label>请输入需要排序的数字:<input v-model="importValue"></label>
+        <button @click="bubbleSort()">冒泡排序</button>
+        <div v-if="sortValue">排序后为:{{ sortValue }}</div>
+    </div>
+    <script type="text/javascript">
+        var app = new Vue({
+            el: '#app',
+            data: {
+                importValue: '',
+                sortValue: null
+            },
+            methods: {
+                bubbleSort: function () {
+                    var re =  /^[0-9]+.?[0-9]*$/
+                    var arr = this.importValue.split('')
+                    // 判断是否全为数字
+                    if (arr.findIndex((item) => { return !re.test(item) }) > -1) {
+                        alert('请输入数字')
+                        return
+                    }
+                    // 循环n-1次
+                    for(var i = 0; i < arr.length - 1; i++) {
+                        // 两两比较
+                        for(var j = 0; j < arr.length - 1 -i; j++) {
+                            // 如果最大值在左边 交换位置 目的是始终将最大值放在右边
+                            if (arr[j] > arr[j+1]) {
+                                var temp = arr[j]
+                                arr[j] = arr[j+1]
+                                arr[j+1] = temp
+                            }
+                        }
+                    }
+                    this.sortValue = arr.join('')
+                }
+            }
+        })
+    </script>
+</body>
+</html>
