@@ -1,0 +1,89 @@
+<!--快速排序：找到基准值 小于基准值的放左 大于基准值的放右 多次循环-->
+<!--极端情况： 1.非数字 2.仅两个或者小于两个-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>快速排序</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <label>请输入需要排序的数字:<input v-model="importValue"></label>
+    <button @click="selectSort()">快速排序</button>
+    <div v-if="sortValue">排序后为:{{ sortValue }}</div>
+</div>
+<script type="text/javascript">
+    var app = new Vue({
+        el: '#app',
+        data: {
+            importValue: '',
+            sortValue: null,
+            arr: [],
+            Arr: []
+        },
+        methods: {
+            selectSort: function () {
+                var re =  /^[0-9]+.?[0-9]*$/
+                this.arr = this.importValue.split('')
+                this.Arr = this.arr
+                // 判断是否全为数字
+                if (this.Arr.findIndex((item) => { return !re.test(item) }) > -1) {
+                    alert('请输入数字')
+                    return
+                }
+                // 排序
+                this.sort(0, this.Arr.length - 1)
+                this.sortValue = this.Arr.join('')
+
+            },
+
+            sort: function(i, j) {
+                var standIndex = i
+                var temp
+                var leftIndex = i
+                var rightIndex = j
+                // 当数组内的长度 < 1的时候 结束递归条件
+                if (i === j) {
+                    return
+                }
+                // 进行一次排序
+                while(i < j) {
+                    // 基准值在左 和右边进行比较
+                    if (i === standIndex) {
+                        // 右边的小于基准值 需要交换
+                        if (this.Arr[j] < this.Arr[standIndex]) {
+                            temp = this.Arr[j]
+                            this.Arr[j] = this.Arr[standIndex]
+                            this.Arr[standIndex] = temp
+                            standIndex = j
+                            i++
+                        }else { // 不需要交换
+                            j--
+                        }
+                    } else {
+                        if (this.Arr[i] > this.Arr[standIndex]) {
+                            temp = this.Arr[i]
+                            this.Arr[i] = this.Arr[standIndex]
+                            this.Arr[standIndex] = temp
+                            standIndex = i
+                            j--
+                        }else {
+                            i++
+                        }
+                    }
+                }
+                // 如果i<standIndex 长度大于1 则排序i到standIndex
+                // 如果j>standIndex 长度大于1 则排序standIndex+1到j
+                if (leftIndex < standIndex - 1) {
+                    this.sort(leftIndex, standIndex-1)
+                }
+                if (standIndex + 1 < rightIndex) {
+                    this.sort(standIndex+1, rightIndex)
+                }
+            }
+        }
+    })
+</script>
+</body>
+</html>
